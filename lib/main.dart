@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-//import './src/asciiart.dart';
+import './src/asciiart.dart';
 
 void main() {
   runApp(const Game());
@@ -15,18 +15,18 @@ class Game extends StatefulWidget {
 }
 
 class GameState extends State<Game>{
-  static var _spells = BigInt.from(0);
-  static var _gain = BigInt.from(1);
+  static final _spells = ValueNotifier<BigInt>(BigInt.from(0));
+  static final _gain = ValueNotifier<BigInt>(BigInt.from(1));
   static Timer? timer;
 
   static void _idleIncrease() {
-    GameState._spells += GameState._gain;
-    debugPrint("in _idleIncrease; _spells = ${GameState._spells}");
+    GameState._spells.value += GameState._gain.value;
+    //debugPrint("in _idleIncrease; _spells = ${GameState._spells.value}");
   }
 
   @override
   void initState(){
-    debugPrint("in initState()");
+    //debugPrint("in initState()");
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => GameState._idleIncrease());
   }
@@ -50,28 +50,60 @@ class MainPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: Column(
-          children: const [
-            Text('You are an evil wizard.'),
-            //Text(Assets.asciiWizard),
-            SpellsWidget(),
-          ],
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Text('You are an evil wizard.'),
+              Text(Assets.asciiWizard),
+              SpellsWidget(),
+              IncreaseInfoWidget(),
+            ],
+          ),
         ),
       )
     );
   }
 }
 
-class SpellsWidget extends StatelessWidget {
+class SpellsWidget extends StatefulWidget {
   const SpellsWidget({super.key});
   
+  @override
+  State<StatefulWidget> createState() => SpellsWidgetState();
+}
+
+class SpellsWidgetState extends State<SpellsWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(GameState._spells.toString()),
-        const Text('spells'),
+        ValueListenableBuilder(
+          valueListenable: GameState._spells,
+          builder: (context, value, widget) {return Text(GameState._spells.value.toString());}),
+        const Text('evil spells'),
+      ],
+    );
+  }
+}
+
+class IncreaseInfoWidget extends StatefulWidget {
+  const IncreaseInfoWidget({super.key});
+  
+  @override
+  State<StatefulWidget> createState() => IncreaseInfoWidgetState();
+}
+
+class IncreaseInfoWidgetState extends State<IncreaseInfoWidget>{
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ValueListenableBuilder(
+          valueListenable: GameState._gain,
+          builder: (context, value, widget) {return Text('Casting ${GameState._gain.value} evil spells per second');}),
       ],
     );
   }
