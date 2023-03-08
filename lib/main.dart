@@ -40,6 +40,12 @@ class GameState extends State<Game>{
       home: const MainPage(),
     );
   }
+
+  @override
+  void dispose(){
+    GameState.timer?.cancel();
+    super.dispose();
+  }
 }
 
 class MainPage extends StatelessWidget {
@@ -54,10 +60,15 @@ class MainPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
+              Spacer(),
               Text('You are an evil wizard.'),
+              Spacer(),
               Text(Assets.asciiWizard),
+              Spacer(),
               SpellsWidget(),
+              Spacer(),
               IncreaseInfoWidget(),
+              Spacer(),
             ],
           ),
         ),
