@@ -1,3 +1,4 @@
+import 'package:evil_wizard_idle_game/src/pages/buildings.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../asciiart.dart';
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
               const IncreaseInfoWidget(),
               const Spacer(),
               TextButton(
-                onPressed: () => {debugPrint('pressed button')},
+                onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => const BuildingsPage()))},
                 child: const Text('test button')),
             ],
           ),
