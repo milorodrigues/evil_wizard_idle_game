@@ -38,6 +38,7 @@ class GameState extends State<Game>{
     return MaterialApp(
       theme: ThemeData(
         textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white, displayColor: Colors.white, fontFamily: 'Courier'),
+        iconTheme: const IconThemeData(color: Colors.white70),
       ),
       home: const HomePage(),
     );
@@ -50,48 +51,4 @@ class GameState extends State<Game>{
   }
 }
 
-
-
-class SpellsWidget extends StatefulWidget {
-  const SpellsWidget({super.key});
-  
-  @override
-  State<StatefulWidget> createState() => SpellsWidgetState();
-}
-
-class SpellsWidgetState extends State<SpellsWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ValueListenableBuilder(
-          valueListenable: GameState._spells,
-          builder: (context, value, widget) {return Text(GameState._spells.value.toString());}),
-        const Text('evil spells'),
-      ],
-    );
-  }
-}
-
-class IncreaseInfoWidget extends StatefulWidget {
-  const IncreaseInfoWidget({super.key});
-  
-  @override
-  State<StatefulWidget> createState() => IncreaseInfoWidgetState();
-}
-
-class IncreaseInfoWidgetState extends State<IncreaseInfoWidget>{
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ValueListenableBuilder(
-          valueListenable: GameState._gain,
-          builder: (context, value, widget) {return Text('Casting ${GameState._gain.value} evil spells per second');}),
-      ],
-    );
-  }
-}
 
