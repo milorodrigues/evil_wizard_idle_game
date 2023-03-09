@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import './src/asciiart.dart';
+import 'src/pages/home.dart';
 
 void main() {
   runApp(const Game());
@@ -15,18 +15,20 @@ class Game extends StatefulWidget {
 }
 
 class GameState extends State<Game>{
+
   static final _spells = ValueNotifier<BigInt>(BigInt.from(0));
+  static ValueNotifier<BigInt> get spells => _spells;
   static final _gain = ValueNotifier<BigInt>(BigInt.from(1));
+  static ValueNotifier<BigInt> get gain => _gain;
+
   static Timer? timer;
 
   static void _idleIncrease() {
     GameState._spells.value += GameState._gain.value;
-    //debugPrint("in _idleIncrease; _spells = ${GameState._spells.value}");
   }
 
   @override
   void initState(){
-    //debugPrint("in initState()");
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => GameState._idleIncrease());
   }
@@ -37,7 +39,7 @@ class GameState extends State<Game>{
       theme: ThemeData(
         textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white, displayColor: Colors.white, fontFamily: 'Courier'),
       ),
-      home: const MainPage(),
+      home: const HomePage(),
     );
   }
 
@@ -48,34 +50,7 @@ class GameState extends State<Game>{
   }
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
 
-  @override
-  Widget build(BuildContext context){
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Spacer(),
-              Text('You are an evil wizard.'),
-              Spacer(),
-              Text(Assets.asciiWizard),
-              Spacer(),
-              SpellsWidget(),
-              Spacer(),
-              IncreaseInfoWidget(),
-              Spacer(),
-            ],
-          ),
-        ),
-      )
-    );
-  }
-}
 
 class SpellsWidget extends StatefulWidget {
   const SpellsWidget({super.key});

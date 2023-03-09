@@ -2,9 +2,10 @@ An experiment in building a simple idle clicker game for Android with Flutter. W
 ASCII wizard art by Morfina @ asciiart.eu  
 
 <p align="center">
-    <img src="https://github.com/milorodrigues/evil_wizard_idle_game/blob/main/images/readme_image_202303081823.png?raw=true" 
+    <img src="https://github.com/milorodrigues/evil_wizard_idle_game/blob/main/images/readme_image_202303081833.png?raw=true" 
     alt="Screenshot of the app's current state"
-    height="50%"/>
+    width="270"
+    height="480"/>
 </p>
 
 To do:
