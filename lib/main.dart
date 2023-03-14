@@ -11,11 +11,10 @@ class Game extends StatefulWidget {
   const Game({super.key});
 
   @override
-  State<Game> createState() => GameState();  
+  State<Game> createState() => GameState();
 }
 
-class GameState extends State<Game>{
-
+class GameState extends State<Game> {
   static final _spells = ValueNotifier<BigInt>(BigInt.from(0));
   static ValueNotifier<BigInt> get spells => _spells;
   static final _gain = ValueNotifier<BigInt>(BigInt.from(1));
@@ -27,8 +26,18 @@ class GameState extends State<Game>{
     GameState._spells.value += GameState._gain.value;
   }
 
+  static void increaseGain(BigInt increase) {
+    GameState._gain.value += increase;
+    debugPrint("Increasing _gain by $increase. New _gain = ${GameState._gain.value}");
+  }
+
+  static void spend(BigInt amount) {
+    GameState._spells.value -= amount;
+    debugPrint("Spending $amount spells");
+  }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => GameState._idleIncrease());
   }
@@ -45,10 +54,8 @@ class GameState extends State<Game>{
   }
 
   @override
-  void dispose(){
+  void dispose() {
     GameState.timer?.cancel();
     super.dispose();
   }
 }
-
-
