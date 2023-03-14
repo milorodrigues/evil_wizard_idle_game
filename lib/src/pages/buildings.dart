@@ -53,8 +53,8 @@ class Building {
 
   void buy() {
     amount += BigInt.from(1);
-    GameState.spend(cost);
-    GameState.increaseGain(gainPerUnit);
+    //AppState.spend(cost);
+    //AppState.increaseGain(gainPerUnit);
   }
 }
 

@@ -1,45 +1,27 @@
+import 'package:evil_wizard_idle_game/src/pages/buildings.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'src/pages/home.dart';
 
 void main() {
-  runApp(const Game());
+  runApp(const App());
 }
 
-class Game extends StatefulWidget {
-  const Game({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
   @override
-  State<Game> createState() => GameState();
+  State<App> createState() => AppState();
 }
 
-class GameState extends State<Game> {
-  static final _spells = ValueNotifier<BigInt>(BigInt.from(0));
-  static ValueNotifier<BigInt> get spells => _spells;
-  static final _gain = ValueNotifier<BigInt>(BigInt.from(1));
-  static ValueNotifier<BigInt> get gain => _gain;
-
+class AppState extends State<App> {
   static Timer? timer;
-
-  static void _idleIncrease() {
-    GameState._spells.value += GameState._gain.value;
-  }
-
-  static void increaseGain(BigInt increase) {
-    GameState._gain.value += increase;
-    debugPrint("Increasing _gain by $increase. New _gain = ${GameState._gain.value}");
-  }
-
-  static void spend(BigInt amount) {
-    GameState._spells.value -= amount;
-    debugPrint("Spending $amount spells");
-  }
+  final _gameState = GameState();
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => GameState._idleIncrease());
   }
 
   @override
@@ -55,7 +37,53 @@ class GameState extends State<Game> {
 
   @override
   void dispose() {
-    GameState.timer?.cancel();
+    _gameState.destroy();
     super.dispose();
   }
+}
+
+class GameState {
+  static final GameState _gameState = GameState._internal();
+
+  factory GameState() {
+    debugPrint('in factory constructor');
+    return _gameState;
+  }
+
+  GameState._internal() {
+    debugPrint('in _internal()');
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => tick());
+  }
+
+  void destroy() {
+    debugPrint("Destroying GameState object...");
+    _timer?.cancel();
+  }
+
+  // Core currency management
+
+  final _spells = ValueNotifier<BigInt>(BigInt.from(0));
+  ValueNotifier<BigInt> get spells => _spells;
+  final _gain = ValueNotifier<BigInt>(BigInt.from(1));
+  ValueNotifier<BigInt> get gain => _gain;
+
+  static Timer? _timer;
+
+  void tick() {
+    _spells.value += _gain.value;
+  }
+
+  void increaseGain(BigInt increase) {
+    _gain.value += increase;
+    debugPrint("Increasing _gain by $increase. New _gain = ${_gain.value}");
+  }
+
+  void spend(BigInt amount) {
+    _spells.value -= amount;
+    debugPrint("Spending $amount spells");
+  }
+
+  // Buildings management
+
+  Map<String, Building> buildings = {};
 }

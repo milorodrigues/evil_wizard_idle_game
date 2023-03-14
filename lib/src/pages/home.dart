@@ -41,15 +41,17 @@ class SpellsWidget extends StatefulWidget {
 }
 
 class SpellsWidgetState extends State<SpellsWidget> {
+  final GameState _gameState = GameState();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ValueListenableBuilder(
-            valueListenable: GameState.spells,
+            valueListenable: _gameState.spells,
             builder: (context, value, widget) {
-              return Text(GameState.spells.value.toString());
+              return Text(_gameState.spells.value.toString());
             }),
         const Text('evil spells'),
       ],
@@ -65,15 +67,17 @@ class IncreaseInfoWidget extends StatefulWidget {
 }
 
 class IncreaseInfoWidgetState extends State<IncreaseInfoWidget> {
+  final GameState _gameState = GameState();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ValueListenableBuilder(
-            valueListenable: GameState.gain,
+            valueListenable: _gameState.gain,
             builder: (context, value, widget) {
-              return Text('Casting ${GameState.gain.value} evil spells per second');
+              return Text('Casting ${_gameState.gain.value} evil spells per second');
             }),
       ],
     );
