@@ -85,5 +85,8 @@ class GameState {
 
   // Buildings management
 
-  Map<String, Building> buildings = {};
+  Map<String, Building> buildings = {
+    'Grimoire': Building('Grimoire', BigInt.from(5), BigInt.from(2), const Icon(Icons.book)),
+    'ScryingOrb': Building('Scrying Orb', BigInt.from(15), BigInt.from(5), const Icon(Icons.radio_button_unchecked)),
+  };
 }

@@ -9,17 +9,8 @@ class BuildingsPage extends StatefulWidget {
 }
 
 class BuildingsPageState extends State<BuildingsPage> {
-  Map<String, Building> buildings = {};
-
-  @override
-  void initState() {
-    super.initState();
-    buildings.addEntries({'Grimoire': Building('Grimoire', BigInt.from(5), BigInt.from(2))}.entries);
-
-    buildings.forEach((key, value) {
-      debugPrint('$key: $value');
-    });
-  }
+  final List<String> entries = <String>['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+  final List<int> colorCodes = <int>[600, 500, 100, 30, 30, 30, 30, 30, 30];
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +22,19 @@ class BuildingsPageState extends State<BuildingsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text("buildings page"),
+            const Spacer(),
+            Flexible(
+                child: ListView.builder(
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    height: 50,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [const Spacer(), Text('Entry ${entries[index]}'), const Spacer(), Text('${colorCodes[index]}'), const Spacer()],
+                    ));
+              },
+            )),
             const Spacer(),
             IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -48,8 +52,9 @@ class Building {
   BigInt amount = BigInt.from(0);
   BigInt cost = BigInt.from(1);
   BigInt gainPerUnit = BigInt.from(1);
+  Icon icon;
 
-  Building(this.name, this.cost, this.gainPerUnit);
+  Building(this.name, this.cost, this.gainPerUnit, this.icon);
 
   void buy() {
     amount += BigInt.from(1);
@@ -59,11 +64,15 @@ class Building {
 }
 
 class BuildingWidget extends StatelessWidget {
-  const BuildingWidget({super.key});
+  final Building building;
+
+  const BuildingWidget({super.key, required this.building});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [const Spacer(), Text(building.name), const Spacer(), building.icon, const Spacer()],
+    );
   }
 }
