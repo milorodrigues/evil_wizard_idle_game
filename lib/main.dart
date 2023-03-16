@@ -53,6 +53,8 @@ class GameState {
   GameState._internal() {
     debugPrint('in _internal()');
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => tick());
+
+    debugPrint(buildings.keys.toList().join(','));
   }
 
   void destroy() {

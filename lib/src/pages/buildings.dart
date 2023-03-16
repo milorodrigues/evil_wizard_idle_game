@@ -9,8 +9,7 @@ class BuildingsPage extends StatefulWidget {
 }
 
 class BuildingsPageState extends State<BuildingsPage> {
-  final List<String> entries = <String>['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-  final List<int> colorCodes = <int>[600, 500, 100, 30, 30, 30, 30, 30, 30];
+  final _gameState = GameState();
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +20,18 @@ class BuildingsPageState extends State<BuildingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text("buildings page"),
-            const Spacer(),
-            Flexible(
+            Expanded(
                 child: ListView.builder(
-              itemCount: entries.length,
+              itemCount: _gameState.buildings.keys.toList().length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                     height: 50,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [const Spacer(), Text('Entry ${entries[index]}'), const Spacer(), Text('${colorCodes[index]}'), const Spacer()],
+                      children: [BuildingWidget(building: _gameState.buildings[_gameState.buildings.keys.toList()[index]])],
                     ));
               },
             )),
-            const Spacer(),
             IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () => {Navigator.pop(context)},
@@ -64,15 +60,16 @@ class Building {
 }
 
 class BuildingWidget extends StatelessWidget {
-  final Building building;
+  final Building? building;
 
   const BuildingWidget({super.key, required this.building});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Flexible(
+        child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [const Spacer(), Text(building.name), const Spacer(), building.icon, const Spacer()],
-    );
+      children: [const Spacer(), Text(building!.name), const Spacer(), building!.icon, const Spacer()],
+    ));
   }
 }
