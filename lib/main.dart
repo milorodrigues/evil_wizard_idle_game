@@ -17,7 +17,7 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   static Timer? timer;
-  final _gameState = GameState();
+  static final gameState = GameState();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class AppState extends State<App> {
 
   @override
   void dispose() {
-    _gameState.destroy();
+    gameState.destroy();
     super.dispose();
   }
 }
