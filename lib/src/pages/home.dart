@@ -15,17 +15,22 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Spacer(),
-            Text('You are an evil wizard.'),
-            Spacer(),
-            Text(Assets.asciiWizard),
-            Spacer(),
-            SpellsWidget(),
-            Spacer(),
-            IncreaseInfoWidget(),
-            Spacer(),
-            NavigationBarWidget()
+          children: [
+            const Spacer(),
+            const Text('You are an evil wizard.'),
+            const Spacer(),
+            InkWell(
+              onTap: () {
+                AppState.gameState.click();
+              },
+              child: const Text(Assets.asciiWizard),
+            ),
+            const Spacer(),
+            const SpellsWidget(),
+            const Spacer(),
+            const IncreaseInfoWidget(),
+            const Spacer(),
+            const NavigationBarWidget()
           ],
         ),
       ),
@@ -41,17 +46,15 @@ class SpellsWidget extends StatefulWidget {
 }
 
 class SpellsWidgetState extends State<SpellsWidget> {
-  final GameState _gameState = GameState();
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ValueListenableBuilder(
-            valueListenable: _gameState.spells,
+            valueListenable: AppState.gameState.spells,
             builder: (context, value, widget) {
-              return Text(_gameState.spells.value.toString());
+              return Text(AppState.gameState.spells.value.toString());
             }),
         const Text('evil spells'),
       ],
@@ -67,17 +70,20 @@ class IncreaseInfoWidget extends StatefulWidget {
 }
 
 class IncreaseInfoWidgetState extends State<IncreaseInfoWidget> {
-  final GameState _gameState = GameState();
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ValueListenableBuilder(
-            valueListenable: _gameState.gain,
+            valueListenable: AppState.gameState.gain,
             builder: (context, value, widget) {
-              return Text('Casting ${_gameState.gain.value} evil spells per second');
+              return Text('Casting ${AppState.gameState.gain.value} evil spells per second');
+            }),
+        ValueListenableBuilder(
+            valueListenable: AppState.gameState.perclick,
+            builder: (context, value, widget) {
+              return Text('Casting ${AppState.gameState.perclick.value} evil spells per click');
             }),
       ],
     );

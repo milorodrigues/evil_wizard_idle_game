@@ -68,11 +68,17 @@ class GameState {
   ValueNotifier<BigInt> get spells => _spells;
   final _gain = ValueNotifier<BigInt>(BigInt.from(1));
   ValueNotifier<BigInt> get gain => _gain;
+  final _perclick = ValueNotifier<BigInt>(BigInt.from(2));
+  ValueNotifier<BigInt> get perclick => _perclick;
 
   static Timer? _timer;
 
   void tick() {
     _spells.value += _gain.value;
+  }
+
+  void click() {
+    _spells.value += _perclick.value;
   }
 
   void increaseGain(BigInt increase) {
